@@ -1,8 +1,13 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Pile extends QueueArray<Card> {
 
     public Pile(String cards) {
+        Scanner scanner = new Scanner(cards);
+        while (scanner.hasNext()){
+
+        }
 
         // Allows for the construction of a pile of cards from a string
         //

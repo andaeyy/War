@@ -35,13 +35,13 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
     }
 
     public void enqueue(Item item) {
-
+        if (size == items.length - 1){
+            resize(2*items.length);
+        }
         items[tail++] = item;
-
-        if (tail == items.length) {
+        if (tail == items.length){
             tail = 0;
         }
-
         size++;
     }
 
@@ -56,55 +56,40 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
             if (head == items.length) {
                 head = 0;
             }
-
-
+            if (size == items.length/4){
+                resize(items.length/2);
+            }
             return itemToReturn;
         }
     }
 
     private void resize(int capacity) {
-        //TODO : Implement the resize method and use it in the correct spots in QueueArray
+        Item[] newitems = (Item[]) (new Object[capacity]);
+        for (int i = 0; i < size; i++){
+            newitems[i] = items[(head+i) % items.length];
+        }
+        items = newitems;
+        head = 0;
+        tail = size;
     }
 
     public Iterator<Item> iterator() {
-        /**
-         * Returns an iterator that traverses the queue from head to tail.
-         * The iterator reflects the state of the queue at the time it is created;
-         * modifications to the queue after the iterator is created may produce
-         * unpredictable results.
-         *
-         * @return a head-to-tail Iterator over the elements of type Item
-         */
-        return (new Iterator<Item>() {
+        return new Iterator<Item>() {
+            private int i = 0;
 
-            private int pos = head;
-            private int count = 0;
-
-            /**
-             * Returns true if the iteration has more elements.
-             * In other words, returns true if a subsequent call to next()
-             * would return an element rather than throwing an exception.
-             *
-             * @return true if there are more elements to iterate over, false otherwise
-             */
             public boolean hasNext() {
-                //TODO Implement the hasNext() method
-                return true;
+                return i < size;
             }
 
-            /**
-             * Returns the next element in the iteration, advancing the iterator
-             * one position toward the tail of the queue.
-             *
-             * @return the next Item in head-to-tail order
-             * @throws java.util.NoSuchElementException if the iteration has no more elements
-             */
             public Item next() {
-                //TODO Implement the next() method
-                Item item = items[0];
-                return item;
-
+                if (!hasNext()) {
+                    throw new java.util.NoSuchElementException();
+                }
+                Item cur = items[(head + i) % items.length];
+                i++;
+                return cur;
             }
-        });
+        };
     }
+
 }
