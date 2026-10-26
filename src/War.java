@@ -35,7 +35,28 @@ public class War {
     }
 
     // ADD ADDITIONAL METHODS HERE, IF DESIRED...
+    public static void handlewar( Pile pile1, Pile pile2, Pile pile3){
+        Card t1 = pile1.dequeue();
+        Card t2 = pile2.dequeue();
+        pile3.enqueue(t1); pile3.enqueue(t2);
+        int counter = 0;
+        while (true && counter < 10000) {
+            if (t1.Rank().compareTo(t2.Rank) > 0) {
+                pile3.enqueue(pile1.dequeue());
+                pile3.enqueue(pile2.dequeue());
+                pile3.enqueue(pile1.dequeue());
+                pile3.enqueue(pile2.dequeue());
+            }
+            else{
+                break;
+            }
+            t1 = pile1.dequeue();
+            t2 = pile2.dequeue();
+            counter++;
+        }
 
+
+    }
     public static void main(String[] args) {
 
         if (args.length == 0) {
@@ -56,8 +77,14 @@ public class War {
         }
 
         numTurns = 1;
+        int TurnTolerance = 1000;
+        boolean isWar = false;
+        while (TurnTolerance > 0 && !pile1.isEmpty() && !pile2.isEmpty()){
+            Pile pile3 = new Pile("");
+            Card t1 = pile1.dequeue();
+            Card t2 = pile2.dequeue();
+            handlewar(pile1, pile2, pile3);
 
-        // TODO: ADD CODE HERE TO COMPLETE THIS METHOD...
-
+        }
     }
 }

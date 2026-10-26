@@ -43,7 +43,7 @@ public class PileTest {
 
         Pile longPile = new Pile("2c 3c 4c 5c 6c 7c 8c 9c Tc Jc Qc");
         String expectedFormatting = "2c  3c  4c  5c  6c  7c  8c  9c  Tc  Jc  "
-                + System.lineSeparator() + "Qc  ";
+                + "\n" + "Qc  ";
         check("toString starts a new line after the 10th card",
                 longPile.toString().equals(expectedFormatting));
 
