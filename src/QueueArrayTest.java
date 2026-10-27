@@ -1,6 +1,9 @@
 public class QueueArrayTest {
     private static void check(String testName, boolean condition) {
         System.out.println((condition ? "PASS: " : "FAIL: ") + testName);
+        if (!condition) {
+            throw new AssertionError(testName);
+        }
     }
 
     private static boolean hasRemainingInOrder(QueueArray<String> queue, int first, int last) {

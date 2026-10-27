@@ -6,6 +6,9 @@ import java.util.List;
 public class PileTest {
     private static void check(String testName, boolean condition) {
         System.out.println((condition ? "PASS: " : "FAIL: ") + testName);
+        if (!condition) {
+            throw new AssertionError(testName);
+        }
     }
 
     private static List<String> cards(Pile pile) {
@@ -65,5 +68,17 @@ public class PileTest {
         check("shuffle preserves card count", shufflePile.size() == 6);
         check("riffle shuffle interleaves the two halves exactly",
                 cards(shufflePile).equals(Arrays.asList("2c", "5c", "3c", "6c", "4c", "7c")));
+
+        Pile oddPile = new Pile("2c 3c 4c 5c 6c");
+        oddPile.shuffle();
+        check("odd shuffle gives the first half the extra card",
+                cards(oddPile).equals(Arrays.asList("2c", "5c", "3c", "6c", "4c")));
+
+        empty.shuffle();
+        check("shuffle handles an empty pile", empty.isEmpty());
+
+        Pile singlePile = new Pile("As");
+        singlePile.shuffle();
+        check("shuffle handles one card", cards(singlePile).equals(Arrays.asList("As")));
     }
 }
