@@ -60,23 +60,21 @@ public class Pile extends QueueArray<Card> {
     * hold the two halves while you rebuild this pile.
     */
     public void shuffle() {
-        int halfsize;
-        if (this.size() % 2 == 1) halfsize = (this.size()+1)/2;
-        else halfsize = this.size()/2;
-        QueueArray<Card> firsthalf = new QueueArray<Card>();
-        QueueArray<Card> secondhalf = new QueueArray<Card>();
-        int count = 0;
-        for (Card c : this){
-            if (count < halfsize) firsthalf.enqueue(this.dequeue());
-            else secondhalf.enqueue(this.dequeue());
-            count++;
+        int half1Size = (size() + 1) / 2;
+        QueueArray<Card> half1 = new QueueArray<>();
+        QueueArray<Card> half2 = new QueueArray<>();
+        for (int i = 0; i < half1Size; i++) {
+            half1.enqueue(dequeue());
         }
-        while (!secondhalf.isEmpty()){
-            this.enqueue(firsthalf.dequeue());
-            this.enqueue(secondhalf.dequeue());
+        while (!isEmpty()) {
+            half2.enqueue(dequeue());
         }
-        while (!firsthalf.isEmpty()){
-            this.enqueue(firsthalf.dequeue());
+        while (!half1.isEmpty() && !half2.isEmpty()) {
+            enqueue(half1.dequeue());
+            enqueue(half2.dequeue());
+        }
+        while (!half1.isEmpty()) {
+            enqueue(half1.dequeue());
         }
     }
 }
